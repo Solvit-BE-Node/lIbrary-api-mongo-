@@ -3,12 +3,13 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 
 const errorHandler = require('./middlewares/error')
-
+const logger = require('./middlewares/logging')
 const bookRouter = require('./routes/books')
 
 const app = express()
 
 app.use(express.json())
+app.use(logger)
 
 app.use('/api/v1/books', bookRouter)
 

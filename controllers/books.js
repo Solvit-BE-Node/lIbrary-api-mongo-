@@ -11,22 +11,17 @@ const createBook = asyncHandler(async (req, res, next) => {
     })
 })
 
-async function getBooks(req, res, next) {
-    try{
-        const book = await Book.find({})
+const getBooks = asyncHandler(async (req, res, next) => {
+    const book = await Book.find({})
         res.status(200).json({
             success:true,
             data: book,
             count: book.length
         })
-    }catch(e){
-        next(e)
-    }
 
-}
+})
 
-async function getOneBook (req, res, next) {
-    try{
+const getOneBook = asyncHandler(async (req, res, next) =>  {
         if(!req.params.id) {
             throw new BadRequest('no id provided')
         }
@@ -39,13 +34,9 @@ async function getOneBook (req, res, next) {
             success: true, 
             data: book
         })
-    }catch(e){
-        next(e)
-    }
-}
+})
 
-async function updateBook(req, res, next) {
-    try{
+const updateBook = asyncHandler(async (req, res, next) => {
         if(!req.params.id) {
             throw new BadRequest('id must be provided!')
         }
@@ -61,12 +52,9 @@ async function updateBook(req, res, next) {
            data: book
        })
 
-    }catch(e){
-        next(e)
-    }
-}
+    })
 
-async function deleteBook(req, res, next) {
+const deleteBook = asyncHandler(async (req, res, next) => {
     try{
     await Book.findByIdAndDelete(req.params.id)
        res.status(200).json({
@@ -77,7 +65,7 @@ async function deleteBook(req, res, next) {
     }catch(e){
         next(e)
     }
-}
+})
 
 
 

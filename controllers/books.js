@@ -55,16 +55,11 @@ const updateBook = asyncHandler(async (req, res, next) => {
     })
 
 const deleteBook = asyncHandler(async (req, res, next) => {
-    try{
     await Book.findByIdAndDelete(req.params.id)
        res.status(200).json({
            success:true,
            data: {}
        })
-
-    }catch(e){
-        next(e)
-    }
 })
 
 

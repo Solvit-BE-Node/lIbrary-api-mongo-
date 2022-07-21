@@ -1,27 +1,27 @@
-const express = require('express')
-require('dotenv').config()
-const mongoose = require('mongoose')
+const express = require("express");
+require("dotenv").config();
 
+
+const { connectToDb } = require("./utils/db");
 const errorHandler = require('./middlewares/error')
 const logger = require('./middlewares/logging')
 const bookRouter = require('./routes/books')
+const responseDuration = require('./middlewares/responseDuration')
 
-const app = express()
+const app = express();
+
 
 app.use(express.json())
 app.use(logger)
 
+
+app.use(responseDuration)
 app.use('/api/v1/books', bookRouter)
 
-app.use(errorHandler)
+app.use(errorHandler);
 
-mongoose.connect(process.env.MONGO_URI).then((connection) => {
-    console.log('connected to database')
-}).catch((error) => {
-    console.log(`unable to connect to database: ${error.message}`)
-})
-
+connectToDb();
 
 app.listen(process.env.PORT, () => {
-    console.log(`server listening on port ${process.env.PORT}`)
-})
+  console.log(`server listening on port ${process.env.PORT}`);
+});

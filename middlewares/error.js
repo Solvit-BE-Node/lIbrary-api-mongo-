@@ -14,7 +14,7 @@ const errorHandler =  (err, req, res, next) => {
     }
 
     if (err.code === "NotFound"){
-        const message = "Duplicate field value entered"
+        const message = Object.values(err.errors).map(value => value.message)
         error = new BadRequest(message, 404);
     }
 

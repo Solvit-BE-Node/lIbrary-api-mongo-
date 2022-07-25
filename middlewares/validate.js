@@ -1,5 +1,5 @@
-const Joi = require('joi')
-const {BadRequest} = require('http-errors')
+const Joi = require('joi');
+const {BadRequest} = require('http-errors');
 
 const validateCreateBook = async (req, res, next) => {
     try{
@@ -8,13 +8,13 @@ const validateCreateBook = async (req, res, next) => {
             author: Joi.string().required(),
             ISBN: Joi.number().required(),
             category: Joi.string().required() 
-        })
-       await  createBookSchema.validateAsync(req.body)
-       next()
+        });
+        await  createBookSchema.validateAsync(req.body);
+        next();
     }catch(e){
-        next(BadRequest(e.message))
+        next(BadRequest(e.message));
     }
-}
+};
 
 
 const validateUpdateBook = async (req, res, next) => {
@@ -23,14 +23,14 @@ const validateUpdateBook = async (req, res, next) => {
             author: Joi.string(),
             ISBN: Joi.number(),
             category: Joi.string()
-        })
-       await  updateBookSchema.validateAsync(req.body)
-       next()
+        });
+        await  updateBookSchema.validateAsync(req.body);
+        next();
     }catch(e){
-        next(BadRequest(e.message))
+        next(BadRequest(e.message));
     }
-}
+};
 
 module.exports = {
-    validateCreateBook
-}
+    validateCreateBook, validateUpdateBook
+};

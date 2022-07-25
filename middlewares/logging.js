@@ -6,8 +6,8 @@ function logger(req,res,next){
         Method: req.method,
         Path: req.path,
         Protocol: req.protocol
-    })
-    next()
+    });
+    next();
 }
 
-module.exports = logger
+module.exports = logger;

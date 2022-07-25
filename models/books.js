@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const slugify = require('slugify')
+const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 
 const BookSchema = new mongoose.Schema({
@@ -26,18 +26,18 @@ const BookSchema = new mongoose.Schema({
     slug: String
 }, {
     timestamps: true
-})
+});
 
 BookSchema.pre('save', function(next) {
     this.slug = slugify(this.name, {
         lower:true
-    })
-    console.log(this)
-    next()
-})
+    });
+    console.log(this);
+    next();
+});
 
 
-const Book = mongoose.model('Book', BookSchema)
+const Book = mongoose.model('Book', BookSchema);
 
 
-module.exports = Book
+module.exports = Book;

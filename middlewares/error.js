@@ -13,7 +13,7 @@ const errorHandler =  (err, req, res, next) => {
         error = new BadRequest(message, 400)
     }
 
-    if (err.code === "NotFound"){
+    if (err.name === "NotFound"){
         const message = Object.values(err.errors).map(value => value.message)
         error = new BadRequest(message, 404);
     }

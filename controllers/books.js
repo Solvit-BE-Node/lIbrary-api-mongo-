@@ -11,12 +11,73 @@ const createBook = asyncHandler(async (req, res, next) => {
     })
 })
 
+<<<<<<< HEAD
 const getBooks = asyncHandler(async (req, res, next) => {
     const book = await Book.find({})
+=======
+async function getAllBooks(req, res, next) {
+    try{
+        console.log(req.query)
+        let query 
+
+        //creates a copy of req.query
+        let reqQuery = {...req.query}
+
+        //create a list of fields to exclude from the query
+        let excludeFields = ['select', 'sort', 'page', 'limit']
+
+        excludeFields.map(field => delete reqQuery[field])
+
+        //creates query string 
+        let queryStr = JSON.stringify(reqQuery)
+
+        //create mongodb operators
+        queryStr = queryStr.replace(/\b(gt|gte|lt|lte|eq|in)\b/g, match => `$${match}`)
+        query = Book.find()
+
+        //selects fieds
+        if (req.query.select){
+           const fields = req.query.select.split(',').join(' ')
+           query = query.select(fields)
+        }
+
+        //sorts fields
+        if (req.query.sort){
+            const sortBy = req.query.sort
+            query = query.sort(sortBy)
+         }
+
+        const page = parseInt(req.query.page, 10) || 1
+        const limit = parseInt(req.query.limit, 10) || 10
+        const startIndex = (page - 1) * limit
+        const endIndex =  page * limit 
+        const total = await Book.countDocuments()
+
+        query.limit(limit).skip(startIndex)
+
+        const book = await query
+
+        const pagination = {}
+        
+        if(endIndex < total) {
+            pagination.next = {
+                page: page + 1,
+                limit
+            }
+        }
+        if(startIndex > 0) {
+            pagination.prev = {
+                page: page - 1,
+                limit
+            }
+        }
+>>>>>>> a25427f5f726d931ce12b690ee1e3c92b4e049e4
         res.status(200).json({
             success:true,
+            count: book.length,
+            pagination,
             data: book,
-            count: book.length
+            
         })
 
 })
@@ -67,7 +128,7 @@ const deleteBook = asyncHandler(async (req, res, next) => {
 
 module.exports = {
     createBook,
-    getBooks,
+    getAllBooks,
     getOneBook,
     updateBook,
     deleteBook

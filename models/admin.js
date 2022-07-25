@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 const {Schema, model} = require('mongoose')
 const adminSchema = new Schema({
      firstname: {
@@ -20,3 +21,20 @@ const adminSchema = new Schema({
 })
 const Admins = model('admin', adminSchema)
 module.exports = Admins
+=======
+const { Schema, model } = require("mongoose");
+const AdminSchema = new Schema({
+   firstname: {
+      type: String, required: [true, ""]
+   },
+   lastname: {
+      type: String, required: [true, ""]
+   },
+   email: {
+      type: String,
+      required: [true, ""],
+   },
+});
+const Admins = model("Admin", AdminSchema);
+module.exports = Admins;
+>>>>>>> a25427f5f726d931ce12b690ee1e3c92b4e049e4

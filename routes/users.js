@@ -5,7 +5,7 @@ const {authenticate, authorize} = require('../middlewares/auth')
 
 const router = express.Router({mergeParams:true});
 
-router.route('/').post(register).get(authenticate, authorize('r'), getUser)
+router.route('/').post(register).get(authenticate, getUser)
 router.route('/login').post(login)
 
 module.exports = router 

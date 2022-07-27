@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const User = require('../models/users')
 const Wallet = require('../models/wallet')
@@ -22,6 +23,10 @@ const login = asyncHandler(async (req, res, next) => {
     if(!user) throw new NotFound('no user with this email exists')
     const valid = await bcrypt.compare(password, user.password)
     if(!valid) throw new BadRequest('invalid password')
+    const token = jwt.sign({id:user._id, role: user.role}, 'some secret key', {
+        expiresIn: 10 * 300
+    })
+
     // const sessionData =  {
     //     id: user._id,
     //     authenticated: true, 
@@ -32,7 +37,7 @@ const login = asyncHandler(async (req, res, next) => {
     
     res.status(200).json({
         success:true,
-        data:user
+        data:token
     })
 
 
@@ -40,7 +45,7 @@ const login = asyncHandler(async (req, res, next) => {
 
 
 const getUser = asyncHandler(async (req, res, next) => {
-    const user = await User.findOne({_id:req.session.user.id})
+    const user = await User.findOne({_id:req.user.id})
     res.status(200).send({
         success: true, 
         data: user

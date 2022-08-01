@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 
 const User = require('../models/users')
 const Wallet = require('../models/wallet')
+const logger = require('../middlewares/waston')
 const {NotFound, BadRequest, Unauthorized} = require('http-errors')
 const asyncHandler = require('../middlewares/async')
 
@@ -52,13 +53,21 @@ const getUser = asyncHandler(async (req, res, next) => {
 
 
 const getUsers = asyncHandler(async (req, res, next) => {
-    req.session.visits = req.session.visits ? req.session.visits + 1 : 1;
-    console.log(req.session)
-    // const user = await User.find().populate('wallet')
-    res.status(201).json({
-        success:true, 
-        data:''
-    })
+    try {
+        req.session.visits = req.session.visits ? req.session.visits + 1 : 1;
+        console.log(req.session)
+        const user = await User.find()
+        res.status(201).json({
+            success:true, 
+            data:user
+        })
+        logger.customerLogger.log('info', 'succefully got list of users')
+    } catch (error) {
+        next(error)
+        logger.customerLogger.log('error', 'succefully got list of users')
+    }
+
+
 })
 
 

@@ -12,6 +12,7 @@ const {connectRedis} = require('./db/redis')
 const errorHandler = require("./middlewares/error");
 
 const bookRouter = require("./routes/books");
+const bookReviewRouter = require("./routes/reviews")
 const userRouter = require("./routes/users");
 /** These route conatins the health routes */
 const baseRouter = require('./routes/base')
@@ -44,6 +45,7 @@ app.use(
 );
 
 app.use("/api/v1/books", bookRouter);
+app.use("/api/v1/reviews", bookReviewRouter);
 app.use("/api/v1/users", userRouter);
 
 app.use(errorHandler);

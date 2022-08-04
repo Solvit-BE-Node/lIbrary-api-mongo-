@@ -1,6 +1,7 @@
 const Book = require('../models/books')
 const {NotFound, BadRequest} = require('http-errors')
 const asyncHandler = require('../middlewares/async')
+const reviews = require('../models/reviews')
 
 const createBook = asyncHandler(async (req, res, next) => {
     const book = new Book(req.body)
@@ -13,8 +14,14 @@ const createBook = asyncHandler(async (req, res, next) => {
 
 async function getAllBooks(req, res, next) {
     try{
-    
-
+        const books = await Book.find()
+        if (!books){
+            throw new NotFound('no book with id found')
+        }
+        res.status(200).json({
+            success: true, 
+            data: books
+        })
     }catch(e){
         next(e)
     }
@@ -26,14 +33,17 @@ async function getOneBook (req, res, next) {
         if(!req.params.id) {
             throw new BadRequest('no id provided')
         }
-        await Book.findOne({_id:req.params.id})
         const book = await Book.findById(req.params.id)
         if (!book){
             throw new NotFound('no book with id found')
         }
+        const bookReviews = await reviews.find({book:book._id}).populate('user')
         res.status(200).json({
             success: true, 
-            data: book
+            data:{
+                book: book,
+                reviews: bookReviews
+            }
         })
     }catch(e){
         next(e)
@@ -64,10 +74,16 @@ async function updateBook(req, res, next) {
 
 async function deleteBook(req, res, next) {
     try{
-    await Book.findByIdAndDelete(req.params.id)
+    if(!req.params.id) throw new BadRequest('No id provided')
+    const deletedBook = await Book.findByIdAndDelete(req.params.id)
+    if(!deleteBook) throw new NotFound('No such Book was found')
+    const deletedBookReviews = await reviews.deleteMany({book:req.params.id})
        res.status(200).json({
            success:true,
-           data: {}
+           data: {
+            deletedBook: deletedBook,
+            deletedReviews: deletedBookReviews
+           }
        })
 
     }catch(e){

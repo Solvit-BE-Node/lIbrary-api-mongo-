@@ -2,6 +2,7 @@ const Book = require('../../models/books')
 const {NotFound, BadRequest} = require('http-errors')
 const asyncHandler = require('../middlewares/async')
 
+
 const createBook = asyncHandler(async (req, res, next) => {
     const book = new Book(req.body)
     const newBook = await book.save()

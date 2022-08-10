@@ -1,7 +1,7 @@
 const express = require('express')
 
 const {createBook, getAllBooks, getOneBook, updateBook, deleteBook} = require('../controllers/books')
-const {validateCreateBook} = require('../middlewares/validate')
+const {validateCreateBook} = require('../middlewares/validators/books')
 const router = express.Router({mergeParams:true});
 
 

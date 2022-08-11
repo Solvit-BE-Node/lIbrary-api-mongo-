@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const slugify = require('slugify')
-
+const Review = require('./reviews');
 
 const BookSchema = new mongoose.Schema({
     title: {
@@ -60,7 +60,10 @@ const BookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required:true
     },
-
+    reviews: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: Review
+    },
     slug: String
 }, {
     timestamps: true

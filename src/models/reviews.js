@@ -1,8 +1,13 @@
 const mongoose = require("mongoose");
 
 const ReviewSchema = new mongoose.Schema({
-    text: {
+    book: {
         type: String,
+        required: true,
+        default: "all books"
+    },
+    text: {
+        type: Array,
         required: true
     }
 });

@@ -2,9 +2,7 @@ const mongoose = require("mongoose");
 const config = require('../config/index')
 
 function connectMongo() {
-  mongoose
-    .connect(config.mongoUri)
-    .then((connection) => {
+  mongoose.connect(config.mongoUri).then((connection) => {
       console.log("connected to mongodb database");
     })
     .catch((error) => {

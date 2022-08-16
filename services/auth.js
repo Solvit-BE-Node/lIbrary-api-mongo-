@@ -25,7 +25,7 @@ const createUserActivationToken = async (user) => {
 
 const checkUserActivationToken =  async (token) => {
   try {
-       const userInfo = await redisClient.get(token)
+       const userInfo = await JSON.parse(redisClient.get(token))
        if(!userInfo) throw new Error('invalid activation token')
        // An extra guard 
        if(userInfo.type !== 'activation') throw new Error('invalid token')
@@ -58,7 +58,7 @@ const createUserResetToken = async (user) => {
 
 const checkUserResetToken =  async (token) => {
   try {
-       const userInfo = await redisClient.get(token)
+       const userInfo = await JSON.parse(redisClient.get(token))
        if(!userInfo) throw new Error('invalid reset token')
        if(userInfo.type !== 'reset') throw new Error('invalid token type')
        return userInfo

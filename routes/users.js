@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { createBookReview, UpdateBookReview, deleteBookReview } = require('../controllers/reviews');
 
 const {register, login, getUserProfile, initiatePasswordReset, resetPassword, logout} = require('../controllers/users')
 const {authenticate, authorize} = require('../middlewares/auth')
@@ -11,12 +12,9 @@ router.route('auth/initiate').post(initiatePasswordReset)
 router.route('auth/reset').post(resetPassword)
 router.route('auth/logout').post(logout)
 
-/** this routes serves the users private info, so its only accessible by the user 
- * the uuser info is retrieved via the req.user object which get the user id and  
- * info from the session
-*/
-router.route('/profile').get(authenticate, getUserProfile).delete()
-
+router.route("book/:book_id/review").post(createBookReview);
+router.route("/book/:book_id/:review_id").post(UpdateBookReview);
+router.route("/book/:book_id/:review_id").delete(deleteBookReview);
 
 
 module.exports = router 

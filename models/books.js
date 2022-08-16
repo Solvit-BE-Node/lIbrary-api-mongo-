@@ -60,6 +60,10 @@ const BookSchema = new mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         required:true
     },
+    reviews: [{
+        type : mongoose.Schema.Types.ObjectId,
+        ref : "Review",
+     }],
 
     slug: String
 }, {

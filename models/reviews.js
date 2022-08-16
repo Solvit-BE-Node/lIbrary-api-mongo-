@@ -1,10 +1,12 @@
+const { optional } = require("joi");
 const mongoose = require("mongoose");
 
 const ReviewSchema = new mongoose.Schema({
-    text: {
-        type: String,
-        required: true
-    }
+    text : {
+     type: String,
+     required: optional()
+    },
+    date : {type : Date, default : Date.now()},
 });
 
 

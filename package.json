@@ -6,7 +6,9 @@
   "scripts": {
     "test": "jest --watchAll --detectOpenHandles",
     "dev": "nodemon src/server.js",
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.js",
+    "pretest": "docker-compose up -d",
+    "posttest": "docker-compose down"
   },
   "repository": {
     "type": "git",
